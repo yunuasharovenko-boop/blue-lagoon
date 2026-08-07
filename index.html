@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ===== TECHNICAL INFO FOR THE BROWSER ===== -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ===== SEO: this is what Google shows in search results ===== -->
+  <title>Blue Lagoon Casino — Online Slots, Live Games &amp; Bonuses</title>
+  <meta name="description" content="Play 3,000+ slots, live dealer tables and jackpots at Blue Lagoon Casino. Welcome bonus up to $1,000 + 200 free spins. Fast payouts, 24/7 support.">
+
+  <!-- How the link looks when shared on Facebook / Telegram / WhatsApp -->
+  <meta property="og:title" content="Blue Lagoon Casino">
+  <meta property="og:description" content="3,000+ games. Welcome bonus up to $1,000 + 200 free spins.">
+  <meta property="og:image" content="images/IMG_2852.PNG">
+  <meta property="og:type" content="website">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- =========================================================
+       1. AGE GATE — the 18+ check every casino must show first
+       ========================================================= -->
+  <div class="age-gate" id="ageGate">
+    <div class="box">
+      <span class="age-badge" style="margin: 0 auto;">18+</span>
+      <h2 style="font-size:1.5rem; margin-top:16px;">Are you 18 or older?</h2>
+      <p>You must be of legal age to enter Blue Lagoon Casino. Gambling can be
+         addictive — please play responsibly.</p>
+      <div class="actions">
+        <button class="btn btn-primary" id="ageYes">Yes, I am 18+</button>
+        <a class="btn btn-ghost" href="https://www.begambleaware.org">No, exit</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       2. HEADER — logo + menu + login/register buttons
+       ========================================================= -->
+  <header class="site-header">
+    <div class="container nav">
+
+      <a href="index.html" class="logo">
+        <span class="crown">♛</span> BLUE&nbsp;LAGOON
+      </a>
+
+      <nav>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="index.html#play">Play free</a></li>
+          <li><a href="games.html">Games</a></li>
+          <li><a href="promotions.html">Promotions</a></li>
+          <li><a href="index.html#how">How it works</a></li>
+          <li><a href="responsible-gaming.html">Responsible Gaming</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="#" class="btn btn-ghost">Log in</a>
+        <a href="#" class="btn btn-primary">Sign up</a>
+        <button class="nav-toggle" id="navToggle" aria-label="Open menu">☰</button>
+      </div>
+
+    </div>
+  </header>
+
+  <main>
+
+    <!-- =========================================================
+         3. HERO — the first screen. Biggest promise + main button
+         ========================================================= -->
+    <section class="hero">
+      <div class="container">
+
+        <span class="eyebrow">♣ · ◇ · ♥ · ♠ &nbsp;Licensed online casino</span>
+
+        <h1>Welcome to the <span class="lagoon-text">Blue Lagoon</span><br>Casino Night</h1>
+
+        <p class="lead">
+          Over 3,000 slots, live dealer tables and daily jackpots.
+          Claim your welcome package and start playing in under 2 minutes.
+        </p>
+
+        <div class="hero-buttons">
+          <a href="#" class="btn btn-primary btn-lg">Claim $1,000 bonus</a>
+          <a href="games.html" class="btn btn-ghost btn-lg">Browse games</a>
+        </div>
+
+        <div class="hero-trust">
+          <span>Payouts in 1–24 hours</span>
+          <span>Licensed &amp; SSL encrypted</span>
+          <span>24/7 live support</span>
+        </div>
+
+        <!-- Your banner image -->
+        <div class="hero-banner">
+          <img src="images/IMG_2852.PNG" alt="Blue Lagoon Casino Night banner">
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================
+         4. STATS — quick numbers that build trust
+         ========================================================= -->
+    <section class="section" style="padding-top:0;">
+      <div class="container">
+        <div class="stats">
+          <div><div class="value">3,000+</div><div class="label">Games</div></div>
+          <div><div class="value">50+</div><div class="label">Providers</div></div>
+          <div><div class="value">$2.4M</div><div class="label">Paid this month</div></div>
+          <div><div class="value">24/7</div><div class="label">Support</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         5. THE GAME — "Fruit Fiesta" playable demo slot
+         Play money only. All the logic lives in game.js
+         ========================================================= -->
+    <section class="section" id="play">
+      <div class="container">
+
+        <div class="section-head">
+          <span class="eyebrow">Free demo · no account needed</span>
+          <h2>Try <span class="neon-text">Fruit Fiesta</span> right now</h2>
+          <p>Match three fruits to win. Match three sevens and take the whole jackpot.
+             You start with 1,000 demo credits — this is play money, nothing real.</p>
+        </div>
+
+        <div class="slot-wrap">
+
+          <!-- Jackpot counter (it keeps growing) -->
+          <div class="jackpot-panel">
+            <div class="label">♛ Mega Jackpot ♛</div>
+            <div class="value" id="jackpotValue">12,480.00</div>
+          </div>
+
+          <!-- The machine -->
+          <div class="slot-machine">
+
+            <!-- Three reels -->
+            <div class="reels" id="reels">
+              <div class="reel" id="reel0">🍒</div>
+              <div class="reel" id="reel1">🍋</div>
+              <div class="reel" id="reel2">🍊</div>
+            </div>
+
+            <!-- Result message -->
+            <div class="slot-message" id="slotMessage">Press SPIN to play</div>
+
+            <!-- Balance / bet / spin -->
+            <div class="slot-controls">
+
+              <div class="slot-meter">
+                <div class="label">Credits</div>
+                <div class="value" id="creditsValue">1,000</div>
+              </div>
+
+              <div class="bet-group">
+                <button class="bet-btn" id="betDown" aria-label="Lower bet">−</button>
+                <div class="slot-meter" style="min-width:96px;">
+                  <div class="label">Bet</div>
+                  <div class="value" id="betValue">10</div>
+                </div>
+                <button class="bet-btn" id="betUp" aria-label="Raise bet">+</button>
+              </div>
+
+              <button class="spin-btn" id="spinBtn">SPIN</button>
+
+            </div>
+
+            <div class="slot-hint">
+              Press the <b>space bar</b> to spin · press <b>J</b> to preview the jackpot win ·
+              <button id="resetBtn" type="button">Reset demo credits</button>
+            </div>
+
+          </div>
+
+          <!-- Paytable: what each combination pays -->
+          <div class="paytable">
+            <h3>Paytable — payout per credit bet</h3>
+            <ul>
+              <li class="jack"><span>7️⃣ 7️⃣ 7️⃣ &nbsp;Three sevens</span> <b>THE FULL JACKPOT</b></li>
+              <li><span>🔔 🔔 🔔</span> <b>50×</b></li>
+              <li><span>🍇 🍇 🍇</span> <b>30×</b></li>
+              <li><span>🍉 🍉 🍉</span> <b>20×</b></li>
+              <li><span>🍊 🍊 🍊</span> <b>10×</b></li>
+              <li><span>🍋 🍋 🍋</span> <b>8×</b></li>
+              <li><span>🍒 🍒 🍒</span> <b>5×</b></li>
+              <li><span>Any two 7️⃣</span> <b>5×</b></li>
+              <li><span>Any two 🍒</span> <b>2×</b></li>
+              <li><span>Any other pair</span> <b>1×</b></li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         6. WELCOME BONUS — the main offer
+         ========================================================= -->
+    <section class="section section-alt" id="bonus">
+      <div class="container">
+
+        <div class="section-head">
+          <span class="eyebrow">Welcome package</span>
+          <h2>Your first three deposits, boosted</h2>
+          <p>New players only. Each bonus is claimed automatically at deposit —
+             no promo code needed.</p>
+        </div>
+
+        <div class="grid grid-3">
+
+          <div class="promo-card">
+            <span class="tag">Most popular</span>
+            <h3>1st deposit</h3>
+            <div class="amount neon-text">100%</div>
+            <p>up to $500 + 200 free spins on Starburst</p>
+            <a href="#" class="btn btn-primary">Claim now</a>
+            <div class="terms">Min. deposit $20. Wagering 35×. T&amp;C apply.</div>
+          </div>
+
+          <div class="promo-card">
+            <h3>2nd deposit</h3>
+            <div class="amount neon-text">75%</div>
+            <p>up to $300 + 50 free spins on Book of Dead</p>
+            <a href="#" class="btn btn-ghost">Claim now</a>
+            <div class="terms">Min. deposit $20. Wagering 35×. T&amp;C apply.</div>
+          </div>
+
+          <div class="promo-card">
+            <h3>3rd deposit</h3>
+            <div class="amount neon-text">50%</div>
+            <p>up to $200 + 50 free spins on Gonzo's Quest</p>
+            <a href="#" class="btn btn-ghost">Claim now</a>
+            <div class="terms">Min. deposit $20. Wagering 35×. T&amp;C apply.</div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         7. POPULAR GAMES — a short preview, full list on games.html
+         ========================================================= -->
+    <section class="section" id="games">
+      <div class="container">
+
+        <div class="section-head">
+          <span class="eyebrow">Lobby</span>
+          <h2>Popular right now</h2>
+          <p>Slots, live dealers, roulette and jackpots from the world's top studios.</p>
+        </div>
+
+        <div class="grid grid-4">
+          <article class="game-card">
+            <div class="game-thumb">🍒</div>
+            <div class="body"><h3>Fruit Fiesta</h3><span>Slot · RTP 96.4%</span></div>
+          </article>
+          <article class="game-card">
+            <div class="game-thumb">🎰</div>
+            <div class="body"><h3>Mega Jackpot</h3><span>Slot · Jackpot $1.2M</span></div>
+          </article>
+          <article class="game-card">
+            <div class="game-thumb">🃏</div>
+            <div class="body"><h3>Live Blackjack</h3><span>Live · 12 tables</span></div>
+          </article>
+          <article class="game-card">
+            <div class="game-thumb">🎡</div>
+            <div class="body"><h3>Lagoon Roulette</h3><span>Live · European</span></div>
+          </article>
+          <article class="game-card">
+            <div class="game-thumb">💎</div>
+            <div class="body"><h3>Diamond Rush</h3><span>Slot · RTP 97.1%</span></div>
+          </article>
+          <article class="game-card">
+            <div class="game-thumb">👑</div>
+            <div class="body"><h3>Royal Poker</h3><span>Table · Hold'em</span></div>
+          </article>
+          <article class="game-card">
+            <div class="game-thumb">🔥</div>
+            <div class="body"><h3>Hot Neon 7s</h3><span>Slot · RTP 96.0%</span></div>
+          </article>
+          <article class="game-card">
+            <div class="game-thumb">🐬</div>
+            <div class="body"><h3>Blue Lagoon</h3><span>Exclusive · RTP 96.8%</span></div>
+          </article>
+        </div>
+
+        <div style="text-align:center; margin-top:36px;">
+          <a href="games.html" class="btn btn-gold btn-lg">See all 3,000+ games</a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================
+         8. HOW IT WORKS — 3 simple steps
+         ========================================================= -->
+    <section class="section section-alt" id="how">
+      <div class="container">
+
+        <div class="section-head">
+          <span class="eyebrow">Getting started</span>
+          <h2>Playing takes 3 steps</h2>
+        </div>
+
+        <div class="grid grid-3">
+          <div class="step">
+            <div class="num">1</div>
+            <h3>Create an account</h3>
+            <p style="color:var(--text-dim);">Email and password only. Registration takes about 60 seconds.</p>
+          </div>
+          <div class="step">
+            <div class="num">2</div>
+            <h3>Make a deposit</h3>
+            <p style="color:var(--text-dim);">Visa, Mastercard, Apple&nbsp;Pay, crypto and bank transfer. From $20.</p>
+          </div>
+          <div class="step">
+            <div class="num">3</div>
+            <h3>Play &amp; withdraw</h3>
+            <p style="color:var(--text-dim);">Your bonus is added instantly. Withdrawals processed within 24 hours.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================
+         9. WHY US — trust blocks
+         ========================================================= -->
+    <section class="section">
+      <div class="container">
+
+        <div class="section-head">
+          <span class="eyebrow">Why Blue Lagoon</span>
+          <h2>Built for players, not for waiting</h2>
+        </div>
+
+        <div class="grid grid-4">
+          <div class="card">
+            <div class="icon">⚡</div>
+            <h3>Fast payouts</h3>
+            <p>Most withdrawals are approved within one hour of verification.</p>
+          </div>
+          <div class="card">
+            <div class="icon">🔒</div>
+            <h3>Safe &amp; licensed</h3>
+            <p>256-bit SSL encryption and independently audited random number generators.</p>
+          </div>
+          <div class="card">
+            <div class="icon">💬</div>
+            <h3>Real support</h3>
+            <p>Live chat with a human agent, 24 hours a day, in 6 languages.</p>
+          </div>
+          <div class="card">
+            <div class="icon">📱</div>
+            <h3>Any device</h3>
+            <p>Works in the browser on phone, tablet and desktop. Nothing to install.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================
+         10. PAYMENT METHODS
+         ========================================================= -->
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Banking</span>
+          <h2>Deposit and withdraw your way</h2>
+          <p>No fees from our side. Minimum deposit $20, minimum withdrawal $30.</p>
+        </div>
+        <div class="grid grid-4">
+          <div class="card" style="text-align:center;"><div class="icon">💳</div><h3>Visa / Mastercard</h3><p>Instant deposit · 1–3 days out</p></div>
+          <div class="card" style="text-align:center;"><div class="icon">🏦</div><h3>Bank transfer</h3><p>Instant deposit · 1–5 days out</p></div>
+          <div class="card" style="text-align:center;"><div class="icon">₿</div><h3>Crypto</h3><p>BTC, ETH, USDT · under 1 hour</p></div>
+          <div class="card" style="text-align:center;"><div class="icon">📲</div><h3>E-wallets</h3><p>Skrill, Neteller · instant</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         11. FAQ — uses <details>, opens without any JavaScript
+         ========================================================= -->
+    <section class="section">
+      <div class="container" style="max-width:820px;">
+
+        <div class="section-head">
+          <span class="eyebrow">Questions</span>
+          <h2>Frequently asked</h2>
+        </div>
+
+        <details class="faq-item">
+          <summary>How do I claim the welcome bonus?</summary>
+          <p>Register an account, then make a deposit of $20 or more. The bonus and
+             free spins are credited automatically — there is no promo code to enter.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>What does "wagering 35×" mean?</summary>
+          <p>Before a bonus can be withdrawn as cash, you need to place bets totalling
+             35 times the bonus amount. Example: a $100 bonus requires $3,500 in bets.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>How long do withdrawals take?</summary>
+          <p>Crypto usually arrives within an hour. Cards and bank transfers take
+             1–5 working days depending on your bank. First withdrawal requires ID verification.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Is Blue Lagoon Casino licensed?</summary>
+          <p>Yes. Our licence number and regulator are listed in the footer of every page.
+             All games are tested by an independent laboratory.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Can I set limits on my account?</summary>
+          <p>Yes. You can set deposit, loss and session limits, take a time-out, or
+             self-exclude at any time. See our
+             <a href="responsible-gaming.html" style="color:var(--aqua);">Responsible Gaming</a> page.</p>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- =========================================================
+         12. FINAL CALL TO ACTION
+         ========================================================= -->
+    <section class="section" style="padding-top:0;">
+      <div class="container">
+        <div class="cta-band">
+          <h2>Ready to play?</h2>
+          <p>Join thousands of players at Blue Lagoon. Your first bonus is waiting.</p>
+          <a href="#" class="btn btn-primary btn-lg">Create free account</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================================================
+       13. FOOTER — links + all the legal text
+       ========================================================= -->
+  <footer class="site-footer">
+    <div class="container">
+
+      <div class="footer-grid">
+
+        <div class="footer-about">
+          <a href="index.html" class="logo"><span class="crown">♛</span> BLUE&nbsp;LAGOON</a>
+          <p>Blue Lagoon Casino is an online gaming brand operated by
+             [Your Company Ltd], registered at [your address].</p>
+        </div>
+
+        <div>
+          <h4>Casino</h4>
+          <ul>
+            <li><a href="games.html">All games</a></li>
+            <li><a href="games.html">Live dealers</a></li>
+            <li><a href="promotions.html">Promotions</a></li>
+            <li><a href="promotions.html">VIP club</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Help</h4>
+          <ul>
+            <li><a href="index.html#how">How it works</a></li>
+            <li><a href="#">Payment methods</a></li>
+            <li><a href="#">Contact support</a></li>
+            <li><a href="#">Live chat</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="#">Terms &amp; Conditions</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+            <li><a href="responsible-gaming.html">Responsible Gaming</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-legal">
+        <div class="legal-note">
+          <span class="age-badge">18+</span>
+          <span>Gambling can be addictive. Play responsibly. Licence No. [XXXX] issued by
+                [Regulator]. © 2026 Blue Lagoon Casino. All rights reserved.</span>
+        </div>
+        <div>
+          <a href="https://www.begambleaware.org">BeGambleAware</a> ·
+          <a href="https://www.gamcare.org.uk">GamCare</a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

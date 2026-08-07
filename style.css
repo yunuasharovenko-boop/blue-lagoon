@@ -1,0 +1,746 @@
+/* ==========================================================
+   BLUE LAGOON CASINO — main stylesheet
+   ----------------------------------------------------------
+   All colors are in one place (below). Change a color here
+   and it changes everywhere on the site.
+   ========================================================== */
+
+:root {
+  /* --- COLORS: edit these to restyle the whole site --- */
+  --bg:          #0a0612;   /* page background (almost black) */
+  --bg-2:        #140b22;   /* card / section background */
+  --bg-3:        #1d1130;   /* lighter card, hover states */
+  --neon:        #ff2d78;   /* main neon pink (from your banner) */
+  --neon-2:      #b026ff;   /* purple neon */
+  --gold:        #f5c451;   /* gold accents */
+  --aqua:        #34d8ff;   /* "lagoon" blue */
+  --blue-deep:   #2b7fff;   /* deeper blue, used in the logo text gradient */
+  --blue-light:  #cdf6ff;   /* almost-white highlight that sweeps across it */
+  --text:        #ffffff;   /* main text */
+  --text-dim:    #a99fbd;   /* secondary / small text */
+  --line:        rgba(255,255,255,.10); /* borders */
+
+  /* --- SIZES --- */
+  --radius:      16px;      /* corner rounding */
+  --max-width:   1200px;    /* how wide the content can get */
+}
+
+/* ---------- BASE RESET ---------- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+a   { color: inherit; text-decoration: none; }
+ul  { list-style: none; }
+
+/* Reusable centered container */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ---------- TYPOGRAPHY ---------- */
+h1, h2, h3 { line-height: 1.15; font-weight: 800; letter-spacing: -.5px; }
+h1 { font-size: clamp(2rem, 6vw, 3.75rem); }
+h2 { font-size: clamp(1.6rem, 4vw, 2.5rem); }
+h3 { font-size: 1.15rem; }
+
+.section-head { text-align: center; margin-bottom: 40px; }
+.section-head p { color: var(--text-dim); max-width: 620px; margin: 12px auto 0; }
+
+/* Small label above a heading */
+.eyebrow {
+  display: inline-block;
+  font-size: .75rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+
+/* Gradient neon text (use on a <span> inside a heading) */
+.neon-text {
+  background: linear-gradient(90deg, var(--neon), var(--neon-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ----------------------------------------------------------
+   BLUE LAGOON — the brand name in the big hero heading.
+   Three effects layered on top of each other:
+     1. a blue gradient instead of a flat colour
+     2. a light "shimmer" that sweeps across the letters
+     3. a soft neon glow that breathes in and out
+   ---------------------------------------------------------- */
+.lagoon-text {
+  /* 1. THE GRADIENT — deep blue → cyan → white highlight → back */
+  background: linear-gradient(
+    100deg,
+    var(--blue-deep) 0%,
+    var(--aqua)       28%,
+    var(--blue-light) 44%,
+    #ffffff           50%,
+    var(--blue-light) 56%,
+    var(--aqua)       72%,
+    var(--blue-deep) 100%
+  );
+  /* The gradient is made wider than the text so it has room to travel */
+  background-size: 250% 100%;
+  background-position: 0% 50%;
+
+  /* Paint the gradient inside the letters only */
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+
+  /* 3. THE GLOW (drop-shadow works on gradient text, text-shadow does not) */
+  filter:
+    drop-shadow(0 0 14px rgba(52, 216, 255, .55))
+    drop-shadow(0 0 40px rgba(43, 127, 255, .35));
+
+  /* 2. + 3. run the two animations defined below */
+  animation:
+    lagoon-shimmer 6s linear    infinite,
+    lagoon-glow    3.6s ease-in-out infinite;
+
+  /* Keeps the descenders of "g" from being clipped by the glow */
+  padding-bottom: .06em;
+  display: inline-block;
+}
+
+/* The light sweeping left to right, over and over */
+@keyframes lagoon-shimmer {
+  from { background-position:   0% 50%; }
+  to   { background-position: 250% 50%; }
+}
+
+/* The glow getting brighter and softer again */
+@keyframes lagoon-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 12px rgba(52, 216, 255, .45))
+            drop-shadow(0 0 34px rgba(43, 127, 255, .28));
+  }
+  50% {
+    filter: drop-shadow(0 0 22px rgba(52, 216, 255, .85))
+            drop-shadow(0 0 60px rgba(43, 127, 255, .50));
+  }
+}
+
+/* A soft blue pool of light behind the whole heading */
+.hero h1 { position: relative; }
+.hero h1::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 620px;
+  height: 260px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(closest-side, rgba(52, 216, 255, .22), transparent);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Respect visitors who switch off animations in their system settings */
+@media (prefers-reduced-motion: reduce) {
+  .lagoon-text { animation: none; background-position: 50% 50%; }
+}
+
+/* ---------- BUTTONS ---------- */
+.btn {
+  display: inline-block;
+  padding: 14px 30px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: .95rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+}
+.btn:hover { transform: translateY(-2px); }
+
+.btn-primary {
+  background: linear-gradient(90deg, var(--neon), var(--neon-2));
+  color: #fff;
+  box-shadow: 0 6px 24px rgba(255, 45, 120, .40);
+}
+.btn-primary:hover { box-shadow: 0 10px 32px rgba(255, 45, 120, .60); }
+
+.btn-gold {
+  background: linear-gradient(90deg, #f9d976, var(--gold));
+  color: #2a1c00;
+  box-shadow: 0 6px 24px rgba(245, 196, 81, .35);
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: var(--line);
+  color: var(--text);
+}
+.btn-ghost:hover { background: var(--bg-3); }
+
+.btn-lg { padding: 17px 40px; font-size: 1.05rem; }
+
+/* ---------- HEADER / NAVIGATION ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10, 6, 18, .85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  height: 74px;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 900;
+  font-size: 1.25rem;
+  letter-spacing: -.5px;
+}
+.logo .crown { color: var(--gold); font-size: 1.4rem; }
+
+.nav-links { display: flex; gap: 28px; }
+.nav-links a {
+  font-size: .95rem;
+  color: var(--text-dim);
+  transition: color .15s ease;
+}
+.nav-links a:hover,
+.nav-links a.active { color: var(--text); }
+
+.nav-actions { display: flex; gap: 10px; align-items: center; }
+.nav-actions .btn { padding: 10px 22px; font-size: .9rem; }
+
+/* Hamburger button — hidden on desktop, shown on mobile */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: 0;
+  color: var(--text);
+  font-size: 1.6rem;
+  cursor: pointer;
+}
+
+/* ---------- HERO (big top block) ---------- */
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 90px 0 100px;
+  text-align: center;
+}
+/* Glowing blobs in the background */
+.hero::before,
+.hero::after {
+  content: "";
+  position: absolute;
+  width: 520px; height: 520px;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: .35;
+  z-index: 0;
+}
+.hero::before { background: var(--neon);   top: -180px; left: -120px; }
+.hero::after  { background: var(--neon-2); bottom: -220px; right: -120px; }
+
+.hero .container { position: relative; z-index: 1; }
+.hero p.lead {
+  color: var(--text-dim);
+  font-size: 1.1rem;
+  max-width: 620px;
+  margin: 18px auto 32px;
+}
+.hero-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+/* Banner image inside the hero */
+.hero-banner {
+  margin-top: 50px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: 0 30px 80px rgba(0,0,0,.65);
+}
+
+/* Trust row under the hero buttons */
+.hero-trust {
+  display: flex;
+  gap: 26px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 28px;
+  color: var(--text-dim);
+  font-size: .88rem;
+}
+.hero-trust span::before { content: "✓ "; color: var(--aqua); }
+
+/* ---------- GENERIC SECTION ---------- */
+.section { padding: 80px 0; }
+.section-alt { background: var(--bg-2); }
+
+/* ---------- GRIDS & CARDS ---------- */
+.grid { display: grid; gap: 22px; }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+.card {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 28px;
+  transition: transform .18s ease, border-color .18s ease;
+}
+.card:hover { transform: translateY(-4px); border-color: rgba(255,45,120,.45); }
+.card .icon { font-size: 2rem; margin-bottom: 14px; }
+.card p { color: var(--text-dim); font-size: .95rem; margin-top: 8px; }
+
+/* Game tile (image on top, title below) */
+.game-card {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.game-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 40px rgba(176, 38, 255, .28);
+}
+.game-thumb {
+  height: 170px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  background: linear-gradient(135deg, var(--bg-3), #2b1548);
+}
+.game-card .body { padding: 16px 18px 20px; }
+.game-card .body h3 { font-size: 1rem; }
+.game-card .body span { font-size: .82rem; color: var(--text-dim); }
+
+/* Bonus / promo card */
+.promo-card {
+  position: relative;
+  background: linear-gradient(160deg, var(--bg-3), var(--bg-2));
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  overflow: hidden;
+}
+.promo-card .tag {
+  position: absolute; top: 18px; right: 18px;
+  background: var(--gold); color: #2a1c00;
+  font-size: .72rem; font-weight: 800;
+  padding: 5px 12px; border-radius: 999px;
+  text-transform: uppercase; letter-spacing: 1px;
+}
+.promo-card .amount {
+  font-size: 2.4rem; font-weight: 900;
+  margin: 8px 0 6px;
+}
+.promo-card p { color: var(--text-dim); font-size: .93rem; margin-bottom: 20px; }
+.promo-card .terms {
+  font-size: .75rem;
+  color: var(--text-dim);
+  margin-top: 14px;
+  opacity: .8;
+}
+
+/* Numbered steps (How it works) */
+.step { text-align: center; }
+.step .num {
+  width: 54px; height: 54px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  font-weight: 900; font-size: 1.2rem;
+  background: linear-gradient(135deg, var(--neon), var(--neon-2));
+}
+
+/* Stats strip */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  text-align: center;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 34px 20px;
+}
+.stats .value {
+  font-size: 2rem; font-weight: 900;
+  color: var(--gold);
+}
+.stats .label { color: var(--text-dim); font-size: .88rem; }
+
+/* ---------- PAGE HEADER (for inner pages) ---------- */
+.page-head {
+  padding: 70px 0 50px;
+  text-align: center;
+  border-bottom: 1px solid var(--line);
+  background: radial-gradient(600px 220px at 50% 0%, rgba(176,38,255,.25), transparent);
+}
+.page-head p { color: var(--text-dim); margin-top: 12px; }
+
+/* ---------- FAQ (uses <details>, no JavaScript needed) ---------- */
+.faq-item {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 18px 22px;
+  margin-bottom: 12px;
+}
+.faq-item summary {
+  cursor: pointer;
+  font-weight: 700;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after { content: "+"; color: var(--neon); font-size: 1.4rem; line-height: 1; }
+.faq-item[open] summary::after { content: "−"; }
+.faq-item p { color: var(--text-dim); margin-top: 12px; font-size: .95rem; }
+
+/* ---------- CTA BAND ---------- */
+.cta-band {
+  text-align: center;
+  background: linear-gradient(135deg, rgba(255,45,120,.18), rgba(176,38,255,.18));
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 60px 30px;
+}
+.cta-band p { color: var(--text-dim); margin: 14px 0 28px; }
+
+/* ---------- FOOTER ---------- */
+.site-footer {
+  background: #06040c;
+  border-top: 1px solid var(--line);
+  padding: 60px 0 30px;
+  font-size: .9rem;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 44px;
+}
+.site-footer h4 {
+  font-size: .8rem; text-transform: uppercase; letter-spacing: 2px;
+  color: var(--gold); margin-bottom: 16px;
+}
+.site-footer li { margin-bottom: 10px; }
+.site-footer a { color: var(--text-dim); }
+.site-footer a:hover { color: var(--text); }
+.footer-about p { color: var(--text-dim); margin-top: 14px; max-width: 340px; }
+
+/* Legal / responsible gambling strip */
+.footer-legal {
+  border-top: 1px solid var(--line);
+  padding-top: 26px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--text-dim);
+  font-size: .82rem;
+}
+.age-badge {
+  display: inline-grid; place-items: center;
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  border: 2px solid var(--neon);
+  color: var(--neon);
+  font-weight: 900; font-size: .8rem;
+  flex-shrink: 0;
+}
+.legal-note { display: flex; align-items: center; gap: 12px; max-width: 560px; }
+
+/* ---------- AGE GATE (18+ pop-up) ---------- */
+.age-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(6, 4, 12, .94);
+  backdrop-filter: blur(8px);
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+.age-gate[hidden] { display: none; }
+.age-gate .box {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 40px 34px;
+  max-width: 440px;
+  text-align: center;
+}
+.age-gate .box p { color: var(--text-dim); margin: 14px 0 26px; font-size: .95rem; }
+.age-gate .actions { display: flex; gap: 12px; justify-content: center; }
+
+/* ==========================================================
+   MOBILE / TABLET
+   ========================================================== */
+@media (max-width: 900px) {
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .nav-toggle { display: block; }
+
+  /* Mobile menu: hidden until the hamburger is clicked */
+  .nav-links {
+    position: absolute;
+    top: 74px; left: 0; right: 0;
+    flex-direction: column;
+    gap: 0;
+    background: var(--bg-2);
+    border-bottom: 1px solid var(--line);
+    display: none;
+  }
+  .nav-links.open { display: flex; }
+  .nav-links a { padding: 16px 20px; border-bottom: 1px solid var(--line); }
+
+  .nav-actions .btn-ghost { display: none; }
+
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+  .section { padding: 56px 0; }
+  .hero { padding: 60px 0 70px; }
+  .footer-legal { flex-direction: column; align-items: flex-start; }
+}
+
+
+/* ==========================================================
+   SLOT MACHINE — "Fruit Fiesta" demo game
+   ========================================================== */
+
+.slot-wrap {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+/* --- Jackpot display (the gold panel on top) --- */
+.jackpot-panel {
+  text-align: center;
+  background: linear-gradient(180deg, rgba(245,196,81,.18), rgba(245,196,81,.04));
+  border: 1px solid rgba(245,196,81,.45);
+  border-radius: 18px 18px 0 0;
+  padding: 18px 20px 16px;
+}
+.jackpot-panel .label {
+  font-size: .72rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.jackpot-panel .value {
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  font-weight: 900;
+  color: var(--gold);
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 24px rgba(245,196,81,.55);
+}
+
+/* --- The machine body --- */
+.slot-machine {
+  background: linear-gradient(180deg, var(--bg-3), var(--bg-2));
+  border: 1px solid var(--line);
+  border-top: 0;
+  border-radius: 0 0 18px 18px;
+  padding: 28px 24px 26px;
+  box-shadow: 0 30px 70px rgba(0,0,0,.6);
+}
+
+/* --- The three reels --- */
+.reels {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 14px;
+  background: #05030a;
+  border: 2px solid rgba(255,45,120,.35);
+  border-radius: 14px;
+  box-shadow: inset 0 0 40px rgba(255,45,120,.15);
+}
+.reel {
+  height: 130px;
+  display: grid;
+  place-items: center;
+  font-size: clamp(3rem, 12vw, 4.4rem);
+  line-height: 1;
+  background: linear-gradient(180deg, #1a0f2b, #0d0716);
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  user-select: none;
+}
+/* While the reel is spinning */
+.reel.spinning { filter: blur(2px); opacity: .8; }
+/* Little bounce when the reel stops */
+.reel.land { animation: land .3s ease; }
+@keyframes land {
+  0%   { transform: translateY(-14px) scale(.9); }
+  60%  { transform: translateY(4px)   scale(1.06); }
+  100% { transform: translateY(0)     scale(1); }
+}
+
+/* Winning flash on the reel frame */
+.reels.win     { animation: winflash .5s ease 2; }
+.reels.jackpot { animation: jackflash .4s ease 5; }
+@keyframes winflash {
+  50% { border-color: var(--gold); box-shadow: inset 0 0 60px rgba(245,196,81,.45); }
+}
+@keyframes jackflash {
+  0%,100% { border-color: var(--gold);  box-shadow: inset 0 0 70px rgba(245,196,81,.6); }
+  50%     { border-color: var(--neon);  box-shadow: inset 0 0 70px rgba(255,45,120,.6); }
+}
+
+/* --- Message line under the reels --- */
+.slot-message {
+  text-align: center;
+  min-height: 30px;
+  margin: 16px 0 4px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--text-dim);
+}
+.slot-message.win  { color: var(--gold); }
+.slot-message.jack { color: var(--neon); font-size: 1.3rem; }
+
+/* --- Controls: balance, bet, spin --- */
+.slot-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.slot-meter {
+  background: #05030a;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px 18px;
+  min-width: 130px;
+  text-align: center;
+}
+.slot-meter .label {
+  font-size: .66rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.slot-meter .value {
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: var(--aqua);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Bet - / + buttons */
+.bet-group { display: flex; align-items: center; gap: 8px; }
+.bet-btn {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--bg-3);
+  color: var(--text);
+  font-size: 1.3rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .15s ease;
+}
+.bet-btn:hover:not(:disabled) { background: var(--neon); }
+.bet-btn:disabled { opacity: .35; cursor: not-allowed; }
+
+/* The big SPIN button */
+.spin-btn {
+  flex: 1;
+  min-width: 180px;
+  padding: 18px 30px;
+  border: 0;
+  border-radius: 999px;
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #fff;
+  cursor: pointer;
+  background: linear-gradient(90deg, var(--neon), var(--neon-2));
+  box-shadow: 0 8px 30px rgba(255,45,120,.45);
+  transition: transform .12s ease, box-shadow .15s ease;
+}
+.spin-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 12px 38px rgba(255,45,120,.65); }
+.spin-btn:active:not(:disabled) { transform: translateY(1px); }
+.spin-btn:disabled { opacity: .55; cursor: wait; }
+
+.slot-hint {
+  text-align: center;
+  font-size: .78rem;
+  color: var(--text-dim);
+  margin-top: 16px;
+}
+.slot-hint button {
+  background: none; border: 0; cursor: pointer;
+  color: var(--aqua); text-decoration: underline;
+  font-size: .78rem; font-family: inherit;
+}
+
+/* --- Paytable --- */
+.paytable {
+  margin-top: 26px;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+}
+.paytable h3 { text-align: center; margin-bottom: 16px; font-size: 1rem; }
+.paytable ul {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px 20px;
+}
+.paytable li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  font-size: .95rem;
+  padding: 7px 12px;
+  background: var(--bg-3);
+  border-radius: 8px;
+}
+.paytable li b { color: var(--gold); font-variant-numeric: tabular-nums; }
+.paytable li.jack { grid-column: 1 / -1; border: 1px solid rgba(245,196,81,.4); }
+.paytable li.jack b { color: var(--neon); }
+
+@media (max-width: 640px) {
+  .paytable ul { grid-template-columns: repeat(2, 1fr); }
+  .slot-controls { justify-content: center; }
+  .spin-btn { order: 3; width: 100%; }
+}
