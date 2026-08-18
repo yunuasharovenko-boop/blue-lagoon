@@ -1,0 +1,169 @@
+---
+/* ==========================================================
+   GAMES PAGE — the lobby
+   ----------------------------------------------------------
+   Every game tile comes from a list below. To add a game,
+   add one line — you never touch the markup.
+   ========================================================== */
+
+import Base from '../layouts/Base.astro';
+
+interface Category { href: string; icon: string; title: string; count: string; }
+interface Game     { icon: string; name: string; detail: string; }
+interface Jackpot  { name: string; amount: string; detail: string; hot?: boolean; }
+
+const categories: readonly Category[] = [
+  { href: '#slots', icon: '🎰', title: 'Slots',       count: '2,400 games' },
+  { href: '#live',  icon: '🃏', title: 'Live dealer', count: '180 tables' },
+  { href: '#table', icon: '🎡', title: 'Table games', count: '320 games' },
+  { href: '#jack',  icon: '💰', title: 'Jackpots',    count: '90 games' },
+];
+
+const slots: readonly Game[] = [
+  { icon: '🍒', name: 'Fruit Fiesta',   detail: 'RTP 96.4% · 20 lines' },
+  { icon: '💎', name: 'Diamond Rush',   detail: 'RTP 97.1% · 25 lines' },
+  { icon: '🔥', name: 'Hot Neon 7s',    detail: 'RTP 96.0% · 10 lines' },
+  { icon: '🐬', name: 'Blue Lagoon',    detail: 'Exclusive · RTP 96.8%' },
+  { icon: '📖', name: 'Book of Gold',   detail: 'RTP 96.2% · 10 lines' },
+  { icon: '⚡', name: 'Thunder Reels',  detail: 'RTP 95.9% · 40 lines' },
+  { icon: '🌴', name: 'Island Spins',   detail: 'RTP 96.6% · 243 ways' },
+  { icon: '🎃', name: 'Midnight Feast', detail: 'RTP 96.1% · 30 lines' },
+];
+
+const liveTables: readonly Game[] = [
+  { icon: '🃏', name: 'Live Blackjack',   detail: '$1 – $5,000' },
+  { icon: '🎡', name: 'Lagoon Roulette',  detail: '$0.50 – $10,000' },
+  { icon: '👑', name: 'VIP Baccarat',     detail: '$25 – $25,000' },
+  { icon: '🎲', name: 'Craps Live',       detail: '$1 – $2,000' },
+];
+
+const tableGames: readonly Game[] = [
+  { icon: '♠', name: 'Classic Blackjack', detail: 'RTP 99.5%' },
+  { icon: '♥', name: 'Royal Poker',       detail: "Hold'em" },
+  { icon: '♦', name: 'European Roulette', detail: 'RTP 97.3%' },
+  { icon: '♣', name: 'Punto Banco',       detail: 'RTP 98.9%' },
+];
+
+const jackpots: readonly Jackpot[] = [
+  { name: 'Mega Jackpot',   amount: '$1,248,930', detail: 'Last won 12 days ago · min. bet $0.20', hot: true },
+  { name: 'Lagoon Fortune', amount: '$384,120',   detail: 'Last won 3 days ago · min. bet $0.10' },
+  { name: 'Golden Crown',   amount: '$96,750',    detail: 'Last won yesterday · min. bet $0.50' },
+];
+---
+
+<Base
+  title="Games — Slots, Live Dealer & Jackpots | Blue Lagoon Casino"
+  description="Browse 3,000+ casino games at Blue Lagoon: video slots, live blackjack, roulette, poker and progressive jackpots."
+  active="games"
+>
+
+  <section class="page-head">
+    <div class="container">
+      <span class="eyebrow">Game lobby</span>
+      <h1>3,000+ games, one account</h1>
+      <p>Slots, live dealers and table games from 50+ studios. Try any game in demo mode for free.</p>
+    </div>
+  </section>
+
+  <!-- ===== CATEGORIES ===== -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><h2>Browse by category</h2></div>
+      <div class="grid grid-4">
+        {categories.map((category) => (
+          <a href={category.href} class="card" style="text-align:center;">
+            <div class="icon">{category.icon}</div>
+            <h3>{category.title}</h3>
+            <p>{category.count}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SLOTS ===== -->
+  <section class="section section-alt" id="slots">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Most played</span>
+        <h2>Video slots</h2>
+      </div>
+      <div class="grid grid-4">
+        {slots.map((game) => (
+          <article class="game-card">
+            <div class="game-thumb">{game.icon}</div>
+            <div class="body"><h3>{game.name}</h3><span>{game.detail}</span></div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== LIVE DEALER ===== -->
+  <section class="section" id="live">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Streamed in HD</span>
+        <h2>Live dealer tables</h2>
+      </div>
+      <div class="grid grid-4">
+        {liveTables.map((game) => (
+          <article class="game-card">
+            <div class="game-thumb">{game.icon}</div>
+            <div class="body"><h3>{game.name}</h3><span>{game.detail}</span></div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TABLE GAMES ===== -->
+  <section class="section section-alt" id="table">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Play at your own pace</span>
+        <h2>Table games</h2>
+      </div>
+      <div class="grid grid-4">
+        {tableGames.map((game) => (
+          <article class="game-card">
+            <div class="game-thumb">{game.icon}</div>
+            <div class="body"><h3>{game.name}</h3><span>{game.detail}</span></div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== JACKPOTS ===== -->
+  <section class="section" id="jack">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Growing every second</span>
+        <h2>Progressive jackpots</h2>
+      </div>
+      <div class="grid grid-3">
+        {jackpots.map((jackpot) => (
+          <div class="promo-card">
+            {jackpot.hot && <span class="tag">Hot</span>}
+            <h3>{jackpot.name}</h3>
+            <div class="amount neon-text">{jackpot.amount}</div>
+            <p>{jackpot.detail}</p>
+            <a href="#" class={jackpot.hot ? 'btn btn-primary' : 'btn btn-ghost'}>Play now</a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="cta-band">
+        <h2>Try any game for free</h2>
+        <p>Demo mode is available on most slots — no account, no deposit.</p>
+        <a href="#" class="btn btn-primary btn-lg">Create free account</a>
+      </div>
+    </div>
+  </section>
+
+</Base>

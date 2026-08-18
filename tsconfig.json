@@ -1,35 +1,16 @@
 {
-  // How TypeScript should turn the files in src/ into browser JavaScript.
+  // Astro's own strict settings — this turns on every safety check for
+  // both the .ts files and the TypeScript inside .astro pages.
+  "extends": "astro/tsconfigs/strict",
+
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist", "node_modules"],
+
   "compilerOptions": {
-    // Which version of JavaScript to produce. ES2018 works in every
-    // browser from roughly 2018 onwards, which is everything in real use.
-    "target": "ES2018",
-    "lib": ["ES2018", "DOM", "DOM.Iterable"],
-
-    // No "module" setting on purpose. Neither source file uses import or
-    // export, so TypeScript treats them as plain <script> files and the
-    // browser loads them directly — no bundler involved.
-
-    // Where the .ts files live and where the finished .js should go
-    "rootDir": "./src",
-    "outDir": "./js",
-
-    // Turn on every safety check. This is the whole reason to use
-    // TypeScript, so there is no sense in switching them off.
-    "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
+    // Extra checks on top of Astro's defaults.
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": true,
-
-    // Keeps the generated JavaScript readable, and lets the browser's
-    // developer tools show you the original .ts file when debugging.
-    "removeComments": false,
-    "sourceMap": true
-  },
-
-  "include": ["src/**/*.ts"]
+    "noUncheckedIndexedAccess": true
+  }
 }

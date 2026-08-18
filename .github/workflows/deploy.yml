@@ -1,0 +1,72 @@
+# ==========================================================
+# AUTOMATIC DEPLOY TO GITHUB PAGES
+# ----------------------------------------------------------
+# Runs on GitHub's computers, not yours, every time a change
+# is pushed to the main branch. It installs the tools, builds
+# the site and publishes it to your live address.
+#
+# You never have to run this yourself.
+# ==========================================================
+
+name: Deploy site to GitHub Pages
+
+on:
+  # Every push to the main branch
+  push:
+    branches: [main]
+  # ...and a button in the Actions tab, for rebuilding by hand
+  workflow_dispatch:
+
+# Permission for the job to publish to Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# If you push twice quickly, let the newer build win
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build the site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v4
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install the packages
+        # `npm ci` installs the exact versions from package-lock.json
+        run: npm ci
+
+      - name: Check the TypeScript for mistakes
+        # If this fails, the site is NOT published — a broken build
+        # can never replace your working live site.
+        run: npm run check
+
+      - name: Build
+        run: npm run build
+
+      - name: Hand the finished site to GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    name: Publish
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Put it live
+        id: deployment
+        uses: actions/deploy-pages@v4

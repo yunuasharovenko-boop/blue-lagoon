@@ -1,0 +1,119 @@
+---
+/* ==========================================================
+   SLOT MACHINE — "Fruit Fiesta" playable demo
+   ----------------------------------------------------------
+   Play money only. The rules live in ../scripts/game.ts
+
+   This is a COMPONENT: a piece of page you can drop anywhere
+   by writing <SlotMachine /> — on this page, on a future
+   games page, anywhere. The markup exists in one place only.
+   ========================================================== */
+
+/** One row of the paytable. */
+interface PayRow {
+  combination: string;
+  pays: string;
+  /** true for the jackpot row, which spans the full width */
+  jackpot?: boolean;
+}
+
+/* The paytable as data rather than 10 near-identical <li> tags.
+   Changing a payout here changes what the page shows — but note it
+   does NOT change the game's actual maths, which lives in game.ts.
+   Keep the two in step. */
+const payTable: readonly PayRow[] = [
+  { combination: '7️⃣ 7️⃣ 7️⃣  Three sevens', pays: 'THE FULL JACKPOT', jackpot: true },
+  { combination: '🔔 🔔 🔔',      pays: '50×' },
+  { combination: '🍇 🍇 🍇',      pays: '30×' },
+  { combination: '🍉 🍉 🍉',      pays: '20×' },
+  { combination: '🍊 🍊 🍊',      pays: '10×' },
+  { combination: '🍋 🍋 🍋',      pays: '8×'  },
+  { combination: '🍒 🍒 🍒',      pays: '5×'  },
+  { combination: 'Any two 7️⃣',    pays: '5×'  },
+  { combination: 'Any two 🍒',    pays: '2×'  },
+  { combination: 'Any other pair', pays: '1×'  },
+];
+
+/** The three reels and the fruit each one shows before the first spin. */
+const startingReels: readonly ['🍒', '🍋', '🍊'] = ['🍒', '🍋', '🍊'];
+---
+
+<section class="section" id="play">
+  <div class="container">
+
+    <div class="section-head">
+      <span class="eyebrow">Free demo · no account needed</span>
+      <h2>Try <span class="neon-text">Fruit Fiesta</span> right now</h2>
+      <p>Match three fruits to win. Match three sevens and take the whole jackpot.
+         You start with 1,000 demo credits — this is play money, nothing real.</p>
+    </div>
+
+    <div class="slot-wrap">
+
+      <!-- Jackpot counter (it keeps growing) -->
+      <div class="jackpot-panel">
+        <div class="label">♛ Mega Jackpot ♛</div>
+        <div class="value" id="jackpotValue">12,480.00</div>
+      </div>
+
+      <!-- The machine -->
+      <div class="slot-machine">
+
+        <!-- Three reels -->
+        <div class="reels" id="reels">
+          {startingReels.map((fruit, index) => (
+            <div class="reel" id={`reel${index}`}>{fruit}</div>
+          ))}
+        </div>
+
+        <!-- Result message -->
+        <div class="slot-message" id="slotMessage">Press SPIN to play</div>
+
+        <!-- Balance / bet / spin -->
+        <div class="slot-controls">
+
+          <div class="slot-meter">
+            <div class="label">Credits</div>
+            <div class="value" id="creditsValue">1,000</div>
+          </div>
+
+          <div class="bet-group">
+            <button class="bet-btn" id="betDown" aria-label="Lower bet">−</button>
+            <div class="slot-meter" style="min-width:96px;">
+              <div class="label">Bet</div>
+              <div class="value" id="betValue">10</div>
+            </div>
+            <button class="bet-btn" id="betUp" aria-label="Raise bet">+</button>
+          </div>
+
+          <button class="spin-btn" id="spinBtn">SPIN</button>
+
+        </div>
+
+        <div class="slot-hint">
+          Press the <b>space bar</b> to spin · press <b>J</b> to preview the jackpot win ·
+          <button id="resetBtn" type="button">Reset demo credits</button>
+        </div>
+
+      </div>
+
+      <!-- Paytable: what each combination pays -->
+      <div class="paytable">
+        <h3>Paytable — payout per credit bet</h3>
+        <ul>
+          {payTable.map((row) => (
+            <li class={row.jackpot ? 'jack' : undefined}>
+              <span set:html={row.combination} />
+              <b>{row.pays}</b>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Astro compiles this TypeScript and only loads it on pages
+     that actually use <SlotMachine /> -->
+<script src="../scripts/game.ts"></script>

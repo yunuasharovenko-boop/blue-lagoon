@@ -1,0 +1,177 @@
+---
+/* ==========================================================
+   BASE LAYOUT
+   ----------------------------------------------------------
+   The parts every page shares: the <head>, the header menu,
+   the 18+ age gate and the footer. Written once here instead
+   of four times across four HTML files.
+
+   Everything between the --- fences is TypeScript. It runs when
+   the site is BUILT, never in the visitor's browser.
+   ========================================================== */
+
+import '../styles/global.css';
+import { url } from '../lib/urls';
+
+/** What a page must hand to this layout. */
+export interface Props {
+  /** Browser tab title and Google's headline. */
+  title: string;
+  /** The grey text under the title in Google results. */
+  description: string;
+  /** Which menu item to highlight. */
+  active?: 'home' | 'games' | 'promotions' | 'responsible';
+}
+
+const { title, description, active = 'home' } = Astro.props;
+
+/** The main menu, defined once as data instead of repeated markup. */
+const navigation: ReadonlyArray<{ href: string; label: string; key: Props['active'] }> = [
+  { href: url(),                     label: 'Home',               key: 'home' },
+  { href: url('#play'),              label: 'Play free',          key: 'home' },
+  { href: url('games'),              label: 'Games',              key: 'games' },
+  { href: url('promotions'),         label: 'Promotions',         key: 'promotions' },
+  { href: url('#how'),               label: 'How it works',       key: 'home' },
+  { href: url('responsible-gaming'), label: 'Responsible Gaming', key: 'responsible' },
+];
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ===== TECHNICAL INFO FOR THE BROWSER ===== -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="generator" content={Astro.generator} />
+
+  <!-- ===== SEO: this is what Google shows in search results ===== -->
+  <title>{title}</title>
+  <meta name="description" content={description} />
+
+  <!-- How the link looks when shared on Facebook / Telegram / WhatsApp -->
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={url('images/IMG_2852.PNG')} />
+  <meta property="og:type" content="website" />
+</head>
+
+<body>
+
+  <!-- =========================================================
+       1. AGE GATE — the 18+ check every casino must show first
+       ========================================================= -->
+  <div class="age-gate" id="ageGate">
+    <div class="box">
+      <span class="age-badge" style="margin: 0 auto;">18+</span>
+      <h2 style="font-size:1.5rem; margin-top:16px;">Are you 18 or older?</h2>
+      <p>You must be of legal age to enter Blue Lagoon Casino. Gambling can be
+         addictive — please play responsibly.</p>
+      <div class="actions">
+        <button class="btn btn-primary" id="ageYes">Yes, I am 18+</button>
+        <a class="btn btn-ghost" href="https://www.begambleaware.org">No, exit</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       2. HEADER — logo + menu + login/register buttons
+       ========================================================= -->
+  <header class="site-header">
+    <div class="container nav">
+
+      <a href={url()} class="logo">
+        <span class="crown">♛</span> BLUE&nbsp;LAGOON
+      </a>
+
+      <nav>
+        <ul class="nav-links" id="navLinks">
+          {navigation.map((item) => (
+            <li>
+              <a href={item.href} class={item.key === active ? 'active' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="#" class="btn btn-ghost">Log in</a>
+        <a href="#" class="btn btn-primary">Sign up</a>
+        <button class="nav-toggle" id="navToggle" aria-label="Open menu">☰</button>
+      </div>
+
+    </div>
+  </header>
+
+  <main>
+    <!-- Each page drops its own content in here -->
+    <slot />
+  </main>
+
+  <!-- =========================================================
+       FOOTER — links + all the legal text
+       ========================================================= -->
+  <footer class="site-footer">
+    <div class="container">
+
+      <div class="footer-grid">
+
+        <div class="footer-about">
+          <a href={url()} class="logo"><span class="crown">♛</span> BLUE&nbsp;LAGOON</a>
+          <p>Blue Lagoon Casino is an online gaming brand operated by
+             [Your Company Ltd], registered at [your address].</p>
+        </div>
+
+        <div>
+          <h4>Casino</h4>
+          <ul>
+            <li><a href={url('games')}>All games</a></li>
+            <li><a href={url('games')}>Live dealers</a></li>
+            <li><a href={url('promotions')}>Promotions</a></li>
+            <li><a href={url('promotions')}>VIP club</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Help</h4>
+          <ul>
+            <li><a href={url('#how')}>How it works</a></li>
+            <li><a href="#">Payment methods</a></li>
+            <li><a href="#">Contact support</a></li>
+            <li><a href="#">Live chat</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="#">Terms &amp; Conditions</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+            <li><a href={url('responsible-gaming')}>Responsible Gaming</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-legal">
+        <div class="legal-note">
+          <span class="age-badge">18+</span>
+          <span>Gambling can be addictive. Play responsibly. Licence No. [XXXX] issued by
+                [Regulator]. © 2026 Blue Lagoon Casino. All rights reserved.</span>
+        </div>
+        <div>
+          <a href="https://www.begambleaware.org">BeGambleAware</a> ·
+          <a href="https://www.gamcare.org.uk">GamCare</a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Astro compiles this TypeScript to browser JavaScript automatically -->
+  <script src="../scripts/site.ts"></script>
+
+</body>
+</html>
