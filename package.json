@@ -1,0 +1,24 @@
+{
+  "name": "blue-lagoon",
+  "version": "1.0.0",
+  "description": "A demo casino landing page built with plain HTML5, CSS and JavaScript. No frameworks, no build step — open `index.html` in a browser and it runs.",
+  "main": "game.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yunuasharovenko-boop/blue-lagoon.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/yunuasharovenko-boop/blue-lagoon/issues"
+  },
+  "homepage": "https://github.com/yunuasharovenko-boop/blue-lagoon#readme",
+  "devDependencies": {
+    "typescript": "^7.0.2"
+  }
+}
